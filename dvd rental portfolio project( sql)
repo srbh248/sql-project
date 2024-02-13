@@ -1,0 +1,58 @@
+--find the details of customers who have spent at least $110 with the staff members who has an ID of 2.
+select customer.customer_id, first_name, last_name, email, address_id,sum( payment.amount) 
+from customer
+join payment
+on customer.customer_id = payment.customer_id
+group by customer.customer_id
+having sum(amount) >=110
+
+
+--what customer has the highest customer id number whose name starts with an 'E' and has anaddress id lower than 500?
+select first_name, last_name, customer_id, address_id  from customer 
+where first_name like 'E%' AND address_id <500
+order by customer_id desc
+limit 1
+
+
+--california sales tax laws have changed and we need to alert our customers to this through mail. what are the emails of the customers who live in california.
+select email, district from customer
+join address
+on customer.address_id= address.address_id
+where district='California'
+
+
+
+--get the list of all the movies in which actor 'Nick Wahlberg' has been casted.
+select first_name, last_name, title, description from actor
+join film_actor
+on actor.actor_id= film_actor.actor_id
+join film
+on film_actor.film_id= film.film_id
+where first_name= 'Nick' and last_name ='Wahlberg'
+
+
+
+--how many customers from each districts?
+select distinct district, count(first_name) from address
+join customer
+on customer.address_id= address.address_id
+group by district
+order by district asc
+
+
+
+--list of films having rating 'R' and a replacement cost between $5 and $15?
+select title,rating, replacement_cost
+from film 
+where rating ='R' 
+and replacement_cost between 5 and 15
+order by replacement_cost 
+
+
+--sales made by each staff member.
+select staff_id, sum(amount) from payment
+group by staff_id
+
+
+
+
